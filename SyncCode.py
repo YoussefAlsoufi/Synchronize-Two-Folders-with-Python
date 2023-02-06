@@ -24,7 +24,15 @@ def CheckContent(srcFilePath,desFilePath,file, message):
         RewriteFile(srcFilePath, desFilePath, file, message)
 
 
-            
+def CleanReplicaFolder(desPath, srcPath):           
+    for folders, subFolders, items in os.walk(desPath):
+        for item in items : 
+            srcFilePathReplaced= folders.replace(desPath,srcPath)
+            srcFilePath= srcFilePathReplaced+'/'+item
+            desFilePath= folders+'/'+item
+            if not (os.path.exists(srcFilePath)):
+                os.remove(desFilePath)
+                info_log.append(item +" Removed from "+ folders)
             
         
             
@@ -59,6 +67,8 @@ def SelectItems(srcPath,desPath):
             else:
                 RewriteFile(srcFilePath, desFilePathReplaced,file,"Creating")
                 CheckContent(srcFilePath, desFilePathReplaced, file, "Creating")
+                
+    CleanReplicaFolder(desPath,srcPath)
                                
     
 info_log.clear()  

@@ -3,6 +3,7 @@ import os
 import shutil
 import hashlib
 
+info_log=[]
 def RewriteFile(srcPath,desPath,file,message):
     try:
         shutil.copy(srcPath, desPath)
@@ -24,7 +25,7 @@ def CheckContent(srcFilePath,desFilePath,file, message):
         RewriteFile(srcFilePath, desFilePath, file, message)
 
 
-def CleanReplicaFolder(desPath, srcPath):           
+def RemoveUnmatchedFiles(desPath, srcPath):           
     for folders, subFolders, items in os.walk(desPath):
         for item in items : 
             srcFilePathReplaced= folders.replace(desPath,srcPath)
@@ -34,11 +35,23 @@ def CleanReplicaFolder(desPath, srcPath):
                 os.remove(desFilePath)
                 info_log.append(item +" Removed from "+ folders)
             
-        
+def RemoveUnmatchedDirs(desPath, srcPath):    
+    for folders,subFolders,items in os.walk(desPath):
+        srcPathReplaced = folders.replace(desPath,srcPath)
+        for folder in subFolders:
+            try:
+                if (os.path.exists(srcPathReplaced+'/'+folder)):
+                    continue
+                else:
+                    shutil.rmtree(folders+'/'+folder)
+                    info_log.append(folder +" Removed from "+ folders)
+            except FileNotFoundError as e:
+                    info_log.append("An Error with removing "+ folders+" "+e)
+                
             
     
 #path = '/Users/Josef/Projects/SycnTwoFolderWithPython/'
-info_log=[]
+
             
 # Copy the content of the first file in            
 def SelectItems(srcPath,desPath):
@@ -48,7 +61,7 @@ def SelectItems(srcPath,desPath):
             try:
                 os.mkdir(desSubfolderPathReplaced+'/'+subdir)
                 info_log.append("The "+subdir+" is Created in "+desSubfolderPathReplaced)
-            except:
+            except :
                 info_log.append("The Folder "+subdir+" is already in "+desSubfolderPathReplaced)
           
         for file in files :
@@ -68,7 +81,8 @@ def SelectItems(srcPath,desPath):
                 RewriteFile(srcFilePath, desFilePathReplaced,file,"Creating")
                 CheckContent(srcFilePath, desFilePathReplaced, file, "Creating")
                 
-    CleanReplicaFolder(desPath,srcPath)
+    RemoveUnmatchedFiles(desPath,srcPath)
+    RemoveUnmatchedDirs(desPath,srcPath)
                                
     
 info_log.clear()  

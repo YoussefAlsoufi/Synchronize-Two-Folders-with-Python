@@ -2,6 +2,7 @@ import filecmp
 import os
 import shutil
 import hashlib
+import schedule,time
 
 srcFolderPath =input("Enter Source Folder Path: ")
 ReplicaFolderPath=input ("Enter Replica Folder Path: ")
@@ -110,18 +111,32 @@ def SelectItems(srcPath,desPath):
     RemoveUnmatchedDirs(desPath,srcPath)
     WriteToTxtFile()
 
-   
-try :
-    if ((os.path.exists(srcFolderPath)) and (os.path.exists(ReplicaFolderPath))):
-        SelectItems(srcFolderPath, ReplicaFolderPath)
-    else :
-        print("Source Folder Path/ Replica Folder Path doesn't exist, please check them again!")
-        print("The synchronization process has been done successfully!")
-        
-except FileNotFoundError as e:
-    print("These is an Error: ",e)
-        
-        
+
+def Starter():   
+    try :
+        if ((os.path.exists(srcFolderPath)) and (os.path.exists(ReplicaFolderPath))):
+            SelectItems(srcFolderPath, ReplicaFolderPath)
+            schedulerRun=schedule.every().day.at("02:55").do(SelectItems(srcFolderPath, ReplicaFolderPath))
+            print("The synchronization process has been done successfully!")
+            while True:
+                schedulerRun.run_pending()
+                time.sleep(1)
+            
+        else :
+            print("Source Folder Path/ Replica Folder Path doesn't exist, please check them again!")
+
+            
+    except FileNotFoundError as e:
+        print("These is an Error: ",e)
+
+Starter()  
+
+      
+'''      
+my_scheduler = sched.scheduler(time.time, time.sleep)
+my_scheduler.enter(60, 1, do_something, (my_scheduler,))
+my_scheduler.run()
+'''     
 
 
 

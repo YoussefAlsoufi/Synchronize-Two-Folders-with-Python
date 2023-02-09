@@ -40,14 +40,20 @@ def WriteToTxtFile ():
     with open(path+ 'Report.txt','w' ) as Folder_report:
         Folder_report.write("Steps of synchronising the folders.\n\n")
         for line in info_log:
+            print(line+"\n\n")
             Folder_report.write(line)
             Folder_report.write("\n\n")
         Folder_report.write("\n")
         Folder_report.write("="*25+"\n")
         Folder_report.write("Report To check Unmatched Folders/Files.\n\n")
+        print("="*25+"\n")
+        print("Report To check Unmatched Folders/Files.\n\n")
         Folder_report.write("Common Files : \n" + common_files+ "\n")
+        print("Common Files : \n" + common_files+ "\n")
         Folder_report.write("\n Source File contains : \n" + sourcefolderfiles + "\n")
+        print("\n Source File contains : \n" + sourcefolderfiles + "\n")
         Folder_report.write("\n Replica Folder contains :\n" + replicaFolderFiles + "\n")
+        print("\n Replica Folder contains :\n" + replicaFolderFiles + "\n")
     
     
 # This Check Fun will check the Content of the file after Copying/Creating to confirm that no changing after the process is done.

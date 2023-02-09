@@ -2,10 +2,11 @@ import filecmp
 import os
 import shutil
 import hashlib
-import schedule,time
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime
 
-srcFolderPath =input("Enter Source Folder Path: ")
-ReplicaFolderPath=input ("Enter Replica Folder Path: ")
+srcFolderPath =input("Enter Source Folder Path: ") 
+ReplicaFolderPath=input ("Enter Replica Folder Path: ") 
 
 info_log=[]
 path = '/Users/Josef/Projects/SycnTwoFolderWithPython/'
@@ -19,11 +20,15 @@ def RewriteFile(srcPath,desPath,file,message):
         info_log.append( message + file + " in "+desPath+ "didn't happend with an exception, please check again!")
         
 def CalculateMd5(srcFilePath):
-    hasher=hashlib.md5()
-    with open (srcFilePath,'rb') as open_file:
-        content = open_file.read()
-        hasher.update(content) 
-    return hasher.hexdigest()
+    try:
+        hasher=hashlib.md5()
+        with open (srcFilePath,'rb') as open_file:
+            content = open_file.read()
+            hasher.update(content) 
+        return hasher.hexdigest()
+    except NotADirectoryError as e:
+        print(" An Error:",e,"\n Please try again!")
+        
 
 def WriteToTxtFile ():
     comparison = filecmp.dircmp(srcFolderPath, ReplicaFolderPath)
@@ -116,27 +121,20 @@ def Starter():
     try :
         if ((os.path.exists(srcFolderPath)) and (os.path.exists(ReplicaFolderPath))):
             SelectItems(srcFolderPath, ReplicaFolderPath)
-            schedulerRun=schedule.every().day.at("02:55").do(SelectItems(srcFolderPath, ReplicaFolderPath))
-            print("The synchronization process has been done successfully!")
-            while True:
-                schedulerRun.run_pending()
-                time.sleep(1)
-            
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
+            print("The synchronization process has been done successfully at: ", current_time)
         else :
             print("Source Folder Path/ Replica Folder Path doesn't exist, please check them again!")
-
             
     except FileNotFoundError as e:
         print("These is an Error: ",e)
 
 Starter()  
+sched = BackgroundScheduler()
+sched.add_job(Starter, 'interval', seconds=3600, end_date="2023-02-10 00:00:00")
+sched.start()
 
-      
-'''      
-my_scheduler = sched.scheduler(time.time, time.sleep)
-my_scheduler.enter(60, 1, do_something, (my_scheduler,))
-my_scheduler.run()
-'''     
 
 
 

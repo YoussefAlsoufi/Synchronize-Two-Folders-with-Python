@@ -10,6 +10,8 @@ Winter.wav is already in /Users/Josef/Projects/SycnTwoFolderWithPython/ReplicaFo
 
 Youssef_Alsoufi_B.pdf is already in /Users/Josef/Projects/SycnTwoFolderWithPython/ReplicaFolder with all contents
 
+DL.pbm is already in /Users/Josef/Projects/SycnTwoFolderWithPython/ReplicaFolder with all contents
+
 Birds.wav is already in /Users/Josef/Projects/SycnTwoFolderWithPython/ReplicaFolder with all contents
 
 The Folder imageTest is already in /Users/Josef/Projects/SycnTwoFolderWithPython/ReplicaFolder/images
@@ -20,11 +22,14 @@ Covid_image.png is already in /Users/Josef/Projects/SycnTwoFolderWithPython/Repl
 
 ML.jpg is already in /Users/Josef/Projects/SycnTwoFolderWithPython/ReplicaFolder/images/imageTest with all contents
 
+ML.jpg has Removed from /Users/Josef/Projects/SycnTwoFolderWithPython/ReplicaFolder/images
+
 
 =========================
 Report To check Unmatched Folders/Files.
+
 Common Files : 
-.DS_Store,Birds.wav,CoverLetter.txt,Winter.wav,Youssef_Alsoufi_B.pdf,images
+.DS_Store,Birds.wav,CoverLetter.txt,DL.pbm,Winter.wav,Youssef_Alsoufi_B.pdf,images
 
  Source File contains : 
 

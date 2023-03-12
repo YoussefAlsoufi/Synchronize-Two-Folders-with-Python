@@ -1,0 +1,5 @@
+2023-03-12 01:58:21,073 (INFO) : synchronisation has started .....
+2023-03-12 01:58:21,073 (ERROR) : Source Folder Path/ Replica Folder Path doesn't exist, please check them again!
+2023-03-12 01:58:22,666 (INFO) : Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2023-03-12 01:58:22,667 (INFO) : Added job "starter" to job store "default"
+2023-03-12 01:58:22,667 (INFO) : Scheduler started
